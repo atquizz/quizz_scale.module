@@ -1,0 +1,8 @@
+name = Scale
+package = Quiz Question
+description = Scale question type for quiz.
+core = 7.x
+dependencies[] = quizz
+dependencies[] = quizz_question
+
+files[] = tests/ScaleTestCase.test
