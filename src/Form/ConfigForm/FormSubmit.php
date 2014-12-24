@@ -94,7 +94,7 @@ class FormSubmit {
 
   private function doSubmitSaveNormal($collection_id, $new_collection_id) {
     // Update all the users questions where the collection is used
-    $question_ids = db_query('SELECT qid FROM {quiz_question} WHERE uid = :uid', array(':uid' => 1))->fetchCol();
+    $question_ids = db_query('SELECT qid FROM {quiz_question_entity} WHERE uid = :uid', array(':uid' => 1))->fetchCol();
 
     db_update('quiz_scale_properties')
       ->fields(array('answer_collection_id' => $new_collection_id))
