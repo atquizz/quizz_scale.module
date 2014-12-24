@@ -45,9 +45,9 @@ function quizz_scale_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_quiz_question_info().
+ * Implements hook_quizz_question_info().
  */
-function quizz_scale_quiz_question_info() {
+function quizz_scale_quizz_question_info() {
   return array(
       'scale' => array(
           'name'              => t('Scale question'),
