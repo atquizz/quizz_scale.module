@@ -15,7 +15,7 @@ class FormSubmit {
   }
 
   private function getQuestionHandler($question_type) {
-    $question = entity_create('quiz_question', array('type' => $question_type));
+    $question = entity_create('quiz_question_entity', array('type' => $question_type));
     return new ScaleQuestion($question);
   }
 
