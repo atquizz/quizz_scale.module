@@ -46,7 +46,7 @@ class Writing {
     }
 
     if (!empty($question->vid)) {
-      db_merge('quiz_scale_properties')
+      db_merge('quiz_scale_question')
         ->key(array('qid' => $question->qid, 'vid' => $question->vid))
         ->fields(array('answer_collection_id' => $collection_id))
         ->execute()

@@ -51,7 +51,7 @@ function quizz_scale_schema() {
       'primary key' => array('id'),
   );
 
-  $schema['quiz_scale_properties'] = array(
+  $schema['quiz_scale_question'] = array(
       'description' => 'Properties specific to this question type. Holds information about what answer collection this question uses',
       'fields'      => array(
           'qid'                  => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'description' => 'Question ID'),
@@ -91,15 +91,15 @@ function quizz_scale_uninstall() {
  * Implements hook_quiz_question_upgrade_schema_node_to_entity().
  */
 function quizz_scale_quiz_question_upgrade_schema_node_to_entity() {
-  if (db_table_exists('quiz_scale_properties')) {
+  if (db_table_exists('quiz_scale_question')) {
     return;
   }
 
-  db_rename_table('quiz_scale_node_properties', 'quiz_scale_properties');
+  db_rename_table('quiz_scale_node_properties', 'quiz_scale_question');
 
   $spec_1 = array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE);
   $spec_2 = array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE);
-  db_change_field('quiz_scale_properties', 'nid', 'qid', $spec_1);
+  db_change_field('quiz_scale_question', 'nid', 'qid', $spec_1);
   db_change_field('quiz_scale_user_answers', 'question_nid', 'question_qid', $spec_2);
 
   db_rename_table('quiz_scale_answer_collection', 'quiz_scale_collections');
@@ -122,9 +122,9 @@ function quizz_scale_quiz_question_upgrade_schema_node_to_entity() {
  */
 function quizz_scale_quiz_question_upgrade_pre_drop_temp_columns() {
   if (db_field_exists('quiz_question_revision', 'node_vid')) {
-    // quiz_scale_properties
+    // quiz_scale_question
     db_query(
-      "UPDATE {quiz_scale_properties} as sp"
+      "UPDATE {quiz_scale_question} as sp"
       . " INNER JOIN {quiz_question_revision} qr ON sp.vid = qr.node_vid"
       . " SET sp.qid = qr.qid, sp.vid = qr.vid"
       . " WHERE 1"

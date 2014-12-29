@@ -96,7 +96,7 @@ class FormSubmit {
     // Update all the users questions where the collection is used
     $question_ids = db_query('SELECT qid FROM {quiz_question_entity} WHERE uid = :uid', array(':uid' => 1))->fetchCol();
 
-    db_update('quiz_scale_properties')
+    db_update('quiz_scale_question')
       ->fields(array('answer_collection_id' => $new_collection_id))
       ->condition('answer_collection_id', $question_ids)
       ->execute();

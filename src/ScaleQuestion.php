@@ -67,11 +67,11 @@ class ScaleQuestion extends QuestionHandler {
 
     if ($single_revision) {
       db_delete('quiz_scale_user_answers')->condition('question_qid', $qid)->condition('question_vid', $vid)->execute();
-      db_delete('quiz_scale_properties')->condition('qid', $qid)->condition('vid', $vid)->execute();
+      db_delete('quiz_scale_question')->condition('qid', $qid)->condition('vid', $vid)->execute();
     }
     else {
       db_delete('quiz_scale_user_answers')->condition('question_qid', $qid)->execute();
-      db_delete('quiz_scale_properties')->condition('qid', $qid)->execute();
+      db_delete('quiz_scale_question')->condition('qid', $qid)->execute();
     }
 
     quizz_scale_collection_controller()->deleteCollectionIfNotUsed($cid, 0);
@@ -86,7 +86,7 @@ class ScaleQuestion extends QuestionHandler {
     if (empty($this->properties)) {
       $this->properties = parent::load();
 
-      $select = db_select('quiz_scale_properties', 'p');
+      $select = db_select('quiz_scale_question', 'p');
       $select->join('quiz_scale_answer', 'answer', 'p.answer_collection_id = answer.answer_collection_id');
       $properties = $select
           ->fields('answer', array('id', 'answer', 'answer_collection_id'))
