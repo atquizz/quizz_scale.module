@@ -20,7 +20,7 @@ function quizz_scale_install() {
  * Implements hook_schema().
  */
 function quizz_scale_schema() {
-  $schema['quiz_scale_collections'] = array(
+  $schema['quiz_scale_collection'] = array(
       'description' => 'Answer collection ids and properties',
       'fields'      => array(
           'id'            => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE),

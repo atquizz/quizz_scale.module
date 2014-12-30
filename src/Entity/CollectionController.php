@@ -69,7 +69,7 @@ class CollectionController extends EntityAPIControllerExportable {
    * @return Collection[]
    */
   public function getPresetCollections($question_type, $uid, $with_defaults = FALSE) {
-    $select = db_select('quiz_scale_collections', 'collection');
+    $select = db_select('quiz_scale_collection', 'collection');
     $select->fields('collection', array('id'));
     $select->condition('question_type', $question_type);
 
@@ -140,13 +140,13 @@ class CollectionController extends EntityAPIControllerExportable {
    */
   public function deleteCollectionIfNotUsed($collection_id, $accept = 0) {
     // Check if the collection is someones preset. If it is we can't delete it.
-    $sql_1 = 'SELECT 1 FROM {quiz_scale_collections} WHERE id = :id AND uid <> 0';
+    $sql_1 = 'SELECT 1 FROM {quiz_scale_collection} WHERE id = :id AND uid <> 0';
     if (db_query($sql_1, array(':id' => $collection_id))->fetchField()) {
       return FALSE;
     }
 
     // Check if the collection is a global preset. If it is we can't delete it.
-    $sql_2 = 'SELECT 1 FROM {quiz_scale_collections} WHERE id = :id AND for_all = 1';
+    $sql_2 = 'SELECT 1 FROM {quiz_scale_collection} WHERE id = :id AND for_all = 1';
     if (db_query($sql_2, array(':id' => $collection_id))->fetchField()) {
       return FALSE;
     }

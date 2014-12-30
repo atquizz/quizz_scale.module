@@ -66,14 +66,14 @@ function quizz_scale_quizz_question_info() {
 function quizz_scale_entity_info() {
   $info = array();
 
-  if (db_table_exists('quiz_scale_collections')) {
+  if (db_table_exists('quiz_scale_collection')) {
     $info['scale_collection'] = array(
         'label'            => t('Collection'),
         'plural label'     => t('Collections'),
         'description'      => t('Scale collections'),
         'entity class'     => 'Drupal\quizz_scale\Entity\Collection',
         'controller class' => 'Drupal\quizz_scale\Entity\CollectionController',
-        'base table'       => 'quiz_scale_collections',
+        'base table'       => 'quiz_scale_collection',
         'fieldable'        => FALSE,
         'exportable'       => TRUE,
         'entity keys'      => array('id' => 'id', 'name' => 'name', 'label' => 'label'),
@@ -118,7 +118,7 @@ function quizz_scale_get_answer($question_qid, $question_vid, $result_id) {
 function quizz_scale_user_cancel($edit, $account, $method) {
   $query = db_query(
     'SELECT id
-     FROM {quiz_scale_collections} collection
+     FROM {quiz_scale_collection} collection
        JOIN {quiz_scale_user} u ON collection.id = u.answer_collection_id
      WHERE uid = :uid
        AND collection.for_all = :for_all

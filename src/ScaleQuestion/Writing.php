@@ -113,7 +113,7 @@ class Writing {
 
     // Find all answers identical to the next answer in $alternatives
     $select = db_select('quiz_scale_collection_item', 'collection_items');
-    $select->innerJoin('quiz_scale_collections', 'collection', 'collection_items.answer_collection_id = collection.id');
+    $select->innerJoin('quiz_scale_collection', 'collection', 'collection_items.answer_collection_id = collection.id');
     $select
       ->fields('collection_items', array('id', 'answer_collection_id'))
       ->condition('collection_items.answer', array_pop($alternatives))
