@@ -32,7 +32,7 @@ class ScaleQuestionForm {
         '#collapsed'   => FALSE,
         '#weight'      => -4,
     );
-    $form['answer']['#theme'][] = 'scale_creation_form';
+    $form['answer']['#theme'][] = 'quizz_scale_creation_form';
     $form['answer']['presets'] = array(
         '#type'          => 'select',
         '#title'         => t('Presets'),

@@ -108,7 +108,7 @@ class ScaleQuestion extends QuestionHandler {
       }
     }
     $content['answer'] = array(
-        '#markup' => theme('scale_answer_node_view', array('alternatives' => $alternatives)),
+        '#markup' => theme('quizz_scale_answer_question_view', array('alternatives' => $alternatives)),
         '#weight' => 2,
     );
     return $content;

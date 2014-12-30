@@ -40,17 +40,6 @@ function quizz_scale_schema() {
       ),
   );
 
-  // Store collection's items.
-  $schema['quiz_scale_answer'] = array(
-      'description' => 'Holds all the possible answers and what answer collections they belong to',
-      'fields'      => array(
-          'id'                   => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE),
-          'answer_collection_id' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
-          'answer'               => array('type' => 'text'),
-      ),
-      'primary key' => array('id'),
-  );
-
   $schema['quiz_scale_question'] = array(
       'description' => 'Properties specific to this question type. Holds information about what answer collection this question uses',
       'fields'      => array(
@@ -61,7 +50,16 @@ function quizz_scale_schema() {
       'primary key' => array('qid', 'vid'),
   );
 
-  // Stores the users answers to a question.
+  $schema['quiz_scale_answer'] = array(
+      'description' => 'Holds all the possible answers and what answer collections they belong to',
+      'fields'      => array(
+          'id'                   => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE),
+          'answer_collection_id' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
+          'answer'               => array('type' => 'text'),
+      ),
+      'primary key' => array('id'),
+  );
+
   $schema['quiz_scale_user_answers'] = array(
       'description' => 'Store the users answers',
       'fields'      => array(

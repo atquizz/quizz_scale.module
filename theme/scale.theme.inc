@@ -11,8 +11,8 @@
  * @param array $alternatives
  *  Array of alternatives as text
  */
-function theme_scale_answer_node_view($variables) {
-  $alternatives = $variables['alternatives'];
+function theme_quizz_scale_answer_question_view($vars) {
+  $alternatives = $vars['alternatives'];
   $header = array(t('Alternatives'));
   $rows = array();
   foreach ($alternatives as $alternative) {
@@ -27,7 +27,7 @@ function theme_scale_answer_node_view($variables) {
  * @param array $form
  *  The response form
  */
-function theme_scale_response_form($variables) {
+function theme_quizz_scale_response_form($variables) {
   $form = $variables['form'];
   return drupal_render_children($form);
 }
@@ -42,6 +42,6 @@ function theme_scale_response_form($variables) {
  * @param $form
  *  The scale creation form
  */
-function theme_scale_creation_form($form) {
+function theme_quizz_scale_creation_form($form) {
   drupal_add_js(drupal_get_path('module', 'quizz_scale') . '/quizz_scale.js');
 }
