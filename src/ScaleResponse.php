@@ -15,7 +15,7 @@ class ScaleResponse extends ResponseHandler {
    * {@inheritdoc}
    * @var string
    */
-  protected $base_table = 'quiz_scale_user_answers';
+  protected $base_table = 'quiz_scale_answer';
   protected $answer_id = 0;
 
   public function __construct($result_id, Question $question, $input = NULL) {
@@ -30,14 +30,14 @@ class ScaleResponse extends ResponseHandler {
       $this->answer_id = (int) $input;
     }
 
-    $sql = 'SELECT answer FROM {quiz_scale_answer} WHERE id = :id';
+    $sql = 'SELECT answer FROM {quiz_scale_collection_item} WHERE id = :id';
     if ($input = db_query($sql, array(':id' => $this->answer_id))->fetchField()) {
       $this->answer = check_plain($input);
     }
   }
 
   public function onLoad(Answer $answer) {
-    $sql = 'SELECT answer_id FROM {quiz_scale_user_answers} WHERE result_id = :rid AND question_vid = :vid';
+    $sql = 'SELECT answer_id FROM {quiz_scale_answer} WHERE result_id = :rid AND question_vid = :vid';
     if ($input = db_query($sql, array(':rid' => $answer->result_id, ':vid' => $answer->question_vid))->fetchField()) {
       $answer->setInput($input);
     }
@@ -47,7 +47,7 @@ class ScaleResponse extends ResponseHandler {
    * {@inheritdoc}
    */
   public function save() {
-    db_insert('quiz_scale_user_answers')
+    db_insert('quiz_scale_answer')
       ->fields(array(
           'answer_id'    => $this->answer_id,
           'result_id'    => $this->result_id,

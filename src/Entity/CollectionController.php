@@ -35,8 +35,8 @@ class CollectionController extends EntityAPIControllerExportable {
     $collections = parent::load($ids, $conditions);
 
     if (!empty($collections)) {
-      $alternatives = db_select('quiz_scale_answer')
-        ->fields('quiz_scale_answer')
+      $alternatives = db_select('quiz_scale_collection_item')
+        ->fields('quiz_scale_collection_item')
         ->condition('answer_collection_id', array_keys($collections))
         ->execute()
         ->fetchAll();
@@ -53,7 +53,7 @@ class CollectionController extends EntityAPIControllerExportable {
     $return = parent::delete($ids, $transaction);
 
     // Delete alternatives
-    db_delete('quiz_scale_answer')
+    db_delete('quiz_scale_collection_item')
       ->condition('answer_collection_id', $ids)
       ->execute();
 

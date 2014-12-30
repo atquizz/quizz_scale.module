@@ -45,9 +45,7 @@ class ScaleQuestion extends QuestionHandler {
   }
 
   /**
-   * Implementation of validateNode
-   *
-   * @see QuizQuestion#validate()
+   * {@inheritdoc}
    */
   public function validate(array &$form) {
 
@@ -66,11 +64,11 @@ class ScaleQuestion extends QuestionHandler {
     $cid = $this->question->{0}->answer_collection_id;
 
     if ($single_revision) {
-      db_delete('quiz_scale_user_answers')->condition('question_qid', $qid)->condition('question_vid', $vid)->execute();
+      db_delete('quiz_scale_answer')->condition('question_qid', $qid)->condition('question_vid', $vid)->execute();
       db_delete('quiz_scale_question')->condition('qid', $qid)->condition('vid', $vid)->execute();
     }
     else {
-      db_delete('quiz_scale_user_answers')->condition('question_qid', $qid)->execute();
+      db_delete('quiz_scale_answer')->condition('question_qid', $qid)->execute();
       db_delete('quiz_scale_question')->condition('qid', $qid)->execute();
     }
 
@@ -78,20 +76,20 @@ class ScaleQuestion extends QuestionHandler {
   }
 
   /**
-   * Implementation of load
-   *
-   * @see QuizQuestion#load()
+   * {@inheritdoc}
    */
   public function load() {
     if (empty($this->properties)) {
       $this->properties = parent::load();
 
       $select = db_select('quiz_scale_question', 'p');
-      $select->join('quiz_scale_answer', 'answer', 'p.answer_collection_id = answer.answer_collection_id');
+      $select->join('quiz_scale_collection_item', 'collection_items', 'p.answer_collection_id = collection_items.answer_collection_id');
       $properties = $select
-          ->fields('answer', array('id', 'answer', 'answer_collection_id'))
-          ->condition('p.vid', $this->question->vid)
-          ->orderBy('answer.id')->execute()->fetchAll();
+        ->fields('collection_items', array('id', 'answer', 'answer_collection_id'))
+        ->condition('p.vid', $this->question->vid)
+        ->orderBy('collection_items.id')
+        ->execute()
+        ->fetchAll();
       foreach ($properties as $property) {
         $this->properties[] = $property;
       }

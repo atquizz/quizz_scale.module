@@ -112,23 +112,23 @@ class Writing {
     $alternatives = isset($collection_id) ? $in_alternatives : array_reverse($in_alternatives);
 
     // Find all answers identical to the next answer in $alternatives
-    $select = db_select('quiz_scale_answer', 'answer');
-    $select->innerJoin('quiz_scale_collections', 'collection', 'answer.answer_collection_id = collection.id');
+    $select = db_select('quiz_scale_collection_item', 'collection_items');
+    $select->innerJoin('quiz_scale_collections', 'collection', 'collection_items.answer_collection_id = collection.id');
     $select
-      ->fields('answer', array('id', 'answer_collection_id'))
-      ->condition('answer.answer', array_pop($alternatives))
+      ->fields('collection_items', array('id', 'answer_collection_id'))
+      ->condition('collection_items.answer', array_pop($alternatives))
       ->condition('collection.question_type', $question_type)
     ;
 
     // Filter on collection ID
     if (isset($collection_id)) {
-      $select->condition('answer.answer_collection_id', $collection_id);
+      $select->condition('collection_items.answer_collection_id', $collection_id);
     }
 
     // Filter on alternative id (If we are investigating a specific collection,
     // the alternatives needs to be in a correct order)
     if (NULL !== $last_id) {
-      $select->condition('answer.id', $last_id + 1);
+      $select->condition('collection_items.id', $last_id + 1);
     }
 
     if (!$_alternatives = $select->execute()->fetchAll()) {
@@ -138,7 +138,7 @@ class Writing {
     // If all alternatives has matched make sure the collection we are comparing
     // against in the database doesn't have more alternatives.
     if (!$alternatives && NULL !== $collection_id && NULL !== $last_id) {
-      $sql = 'SELECT 1 FROM {quiz_scale_answer} WHERE answer_collection_id = :cid AND id = :id';
+      $sql = 'SELECT 1 FROM {quiz_scale_collection_item} WHERE answer_collection_id = :cid AND id = :id';
       if (db_query($sql, array(':cid' => $collection_id, ':id' => $last_id + 2))->fetchColumn()) {
         return $collection_id;
       }

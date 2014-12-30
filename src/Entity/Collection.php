@@ -29,11 +29,9 @@ class Collection extends Entity {
   public $alternatives = array();
 
   public function insertAlternatives($answers) {
-    // db_lock_table('quiz_scale_answer');
     foreach ($answers as $answer) {
       $this->insertAlternative($answer);
     }
-    // db_unlock_tables();
   }
 
   /**
@@ -45,7 +43,7 @@ class Collection extends Entity {
       $this->save();
     }
 
-    return db_insert('quiz_scale_answer')
+    return db_insert('quiz_scale_collection_item')
         ->fields(array(
             'answer_collection_id' => $this->id,
             'answer'               => $answer

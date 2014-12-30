@@ -101,7 +101,7 @@ function quizz_scale_quiz_question_config(QuestionType $question_type) {
  */
 function quizz_scale_get_answer($question_qid, $question_vid, $result_id) {
   $results = db_query('SELECT answer_id, question_vid, question_qid, result_id
-    FROM {quiz_scale_user_answers}
+    FROM {quiz_scale_answer}
     WHERE question_qid = :question_id AND question_vid = :qvid AND result_id = :rid', array(
       ':question_id' => $question_qid,
       ':qvid'        => $question_vid,
