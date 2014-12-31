@@ -1,14 +1,6 @@
 <?php
 
 /**
- * Sponsored by: Norwegian Centre for Telemedicine
- * Code: falcon
- *
- * @file
- * Scale Install (a quiz question type)
- */
-
-/**
  * Implements hook_install().
  */
 function quizz_scale_install() {

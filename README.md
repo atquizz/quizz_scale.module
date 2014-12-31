@@ -20,3 +20,7 @@ module at Admin > Build > Modules.
 
 Go to /admin/structure/quizz-questions, find question type that uses 'quizz_scale'
 as handler, click edit. Here you can change and delete presets (answer collections).
+
+### Credit
+
+Module is started by @falcon with sponsor from Norwegian Centre for Telemedicine
