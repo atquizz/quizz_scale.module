@@ -12,6 +12,9 @@ use Drupal\quizz_scale\Form\ScaleQuestionForm;
  */
 class ScaleQuestion extends QuestionHandler {
 
+  protected $base_answer_table = 'quiz_scale_answer';
+  protected $base_table = 'quiz_scale_question';
+
   public function onNewQuestionTypeCreated(QuestionType $question_type) {
     $return = parent::onNewQuestionTypeCreated($question_type);
 
@@ -52,27 +55,12 @@ class ScaleQuestion extends QuestionHandler {
   }
 
   /**
-   * Implementation of delete
-   *
-   * @see QuizQuestion#delete()
+   * {@inheritdoc}
    */
   public function delete($single_revision = FALSE) {
-    parent::delete($single_revision);
-
-    $qid = $this->question->qid;
-    $vid = $this->question->vid;
     $cid = $this->question->{0}->answer_collection_id;
-
-    if ($single_revision) {
-      db_delete('quiz_scale_answer')->condition('question_qid', $qid)->condition('question_vid', $vid)->execute();
-      db_delete('quiz_scale_question')->condition('qid', $qid)->condition('vid', $vid)->execute();
-    }
-    else {
-      db_delete('quiz_scale_answer')->condition('question_qid', $qid)->execute();
-      db_delete('quiz_scale_question')->condition('qid', $qid)->execute();
-    }
-
     quizz_scale_collection_controller()->deleteCollectionIfNotUsed($cid, 0);
+    parent::delete($single_revision);
   }
 
   /**

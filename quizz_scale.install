@@ -56,14 +56,10 @@ function quizz_scale_schema() {
   $schema['quiz_scale_answer'] = array(
       'description' => 'Store the users answers',
       'fields'      => array(
-          'answer_id'    => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
-          'result_id'    => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
-          'question_qid' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
-          'question_vid' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
+          'answer_id'          => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
+          'collection_item_id' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
       ),
-      'primary key' => array(
-          'result_id', 'question_qid', 'question_vid'
-      ),
+      'primary key' => array('answer_id'),
   );
 
   return $schema;
