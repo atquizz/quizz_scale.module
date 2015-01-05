@@ -94,11 +94,12 @@ class FormSubmit {
 
   private function doSubmitSaveNormal($collection_id, $new_collection_id) {
     // Update all the users questions where the collection is used
-    $question_ids = db_query('SELECT qid FROM {quiz_question_entity} WHERE uid = :uid', array(':uid' => 1))->fetchCol();
+    $sql = 'SELECT qid FROM {quiz_question_entity} WHERE uid = :uid';
+    $question_ids = db_query($sql, array(':uid' => 1))->fetchCol();
 
     db_update('quiz_scale_question')
-      ->fields(array('answer_collection_id' => $new_collection_id))
-      ->condition('answer_collection_id', $question_ids)
+      ->fields(array('collection_id' => $new_collection_id))
+      ->condition('qid', $question_ids)
       ->execute();
 
     $this->controller->deleteCollectionIfNotUsed($collection_id);

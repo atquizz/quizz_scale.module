@@ -37,12 +37,12 @@ class CollectionController extends EntityAPIControllerExportable {
     if (!empty($collections)) {
       $alternatives = db_select('quiz_scale_collection_item')
         ->fields('quiz_scale_collection_item')
-        ->condition('answer_collection_id', array_keys($collections))
+        ->condition('collection_id', array_keys($collections))
         ->execute()
         ->fetchAll();
 
       foreach ($alternatives as $alternative) {
-        $collections[$alternative->answer_collection_id]->alternatives[$alternative->id] = check_plain($alternative->answer);
+        $collections[$alternative->collection_id]->alternatives[$alternative->id] = check_plain($alternative->answer);
       }
     }
 
@@ -54,7 +54,7 @@ class CollectionController extends EntityAPIControllerExportable {
 
     // Delete alternatives
     db_delete('quiz_scale_collection_item')
-      ->condition('answer_collection_id', $ids)
+      ->condition('collection_id', $ids)
       ->execute();
 
     return $return;
@@ -152,7 +152,7 @@ class CollectionController extends EntityAPIControllerExportable {
     }
 
     // Check if the collection is used in an existing question. If it is we can't delete it.
-    $sql_3 = 'SELECT COUNT(*) FROM {quiz_scale_question} WHERE answer_collection_id = :acid';
+    $sql_3 = 'SELECT COUNT(*) FROM {quiz_scale_question} WHERE collection_id = :acid';
     $count = db_query($sql_3, array(':acid' => $collection_id))->fetchField();
 
     // We delete the answer collection if it isnt beeing used by enough questions

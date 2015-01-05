@@ -58,7 +58,7 @@ class ScaleQuestion extends QuestionHandler {
    * {@inheritdoc}
    */
   public function delete($single_revision = FALSE) {
-    $cid = $this->question->{0}->answer_collection_id;
+    $cid = $this->question->{0}->collection_id;
     quizz_scale_collection_controller()->deleteCollectionIfNotUsed($cid, 0);
     parent::delete($single_revision);
   }
@@ -71,9 +71,9 @@ class ScaleQuestion extends QuestionHandler {
       $this->properties = parent::load();
 
       $select = db_select('quiz_scale_question', 'p');
-      $select->join('quiz_scale_collection_item', 'collection_items', 'p.answer_collection_id = collection_items.answer_collection_id');
+      $select->join('quiz_scale_collection_item', 'collection_items', 'p.collection_id = collection_items.collection_id');
       $properties = $select
-        ->fields('collection_items', array('id', 'answer', 'answer_collection_id'))
+        ->fields('collection_items', array('id', 'answer', 'collection_id'))
         ->condition('p.vid', $this->question->vid)
         ->orderBy('collection_items.id')
         ->execute()

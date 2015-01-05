@@ -48,7 +48,7 @@ class Writing {
     if (!empty($question->vid)) {
       db_merge('quiz_scale_question')
         ->key(array('qid' => $question->qid, 'vid' => $question->vid))
-        ->fields(array('answer_collection_id' => $collection_id))
+        ->fields(array('collection_id' => $collection_id))
         ->execute()
       ;
     }
@@ -59,7 +59,7 @@ class Writing {
 
     // We try to delete the old answer collection
     if (!$is_new & !empty($question->{0})) {
-      $collection_id_to_delete = $question->{0}->answer_collection_id;
+      $collection_id_to_delete = $question->{0}->collection_id;
       if ($collection_id_to_delete != $collection_id) {
         $this->controller->deleteCollectionIfNotUsed($collection_id_to_delete, 1);
       }
@@ -113,16 +113,16 @@ class Writing {
 
     // Find all answers identical to the next answer in $alternatives
     $select = db_select('quiz_scale_collection_item', 'collection_items');
-    $select->innerJoin('quiz_scale_collection', 'collection', 'collection_items.answer_collection_id = collection.id');
+    $select->innerJoin('quiz_scale_collection', 'collection', 'collection_items.collection_id = collection.id');
     $select
-      ->fields('collection_items', array('id', 'answer_collection_id'))
+      ->fields('collection_items', array('id', 'collection_id'))
       ->condition('collection_items.answer', array_pop($alternatives))
       ->condition('collection.question_type', $question_type)
     ;
 
     // Filter on collection ID
     if (isset($collection_id)) {
-      $select->condition('collection_items.answer_collection_id', $collection_id);
+      $select->condition('collection_items.collection_id', $collection_id);
     }
 
     // Filter on alternative id (If we are investigating a specific collection,
@@ -138,7 +138,7 @@ class Writing {
     // If all alternatives has matched make sure the collection we are comparing
     // against in the database doesn't have more alternatives.
     if (!$alternatives && NULL !== $collection_id && NULL !== $last_id) {
-      $sql = 'SELECT 1 FROM {quiz_scale_collection_item} WHERE answer_collection_id = :cid AND id = :id';
+      $sql = 'SELECT 1 FROM {quiz_scale_collection_item} WHERE collection_id = :cid AND id = :id';
       if (db_query($sql, array(':cid' => $collection_id, ':id' => $last_id + 2))->fetchColumn()) {
         return $collection_id;
       }
@@ -148,7 +148,7 @@ class Writing {
     // Do a recursive call to this function on all answer collection candidates
     foreach ($_alternatives as $alternative) {
       $aid = $alternative->id;
-      $cid = $alternative->answer_collection_id;
+      $cid = $alternative->collection_id;
       if ($collection_id = $this->findCollectionId($question_type, $alternatives, $cid, $aid)) {
         return $collection_id;
       }

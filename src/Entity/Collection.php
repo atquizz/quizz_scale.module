@@ -45,8 +45,8 @@ class Collection extends Entity {
 
     return db_insert('quiz_scale_collection_item')
         ->fields(array(
-            'answer_collection_id' => $this->id,
-            'answer'               => $answer
+            'collection_id' => $this->id,
+            'answer'        => $answer
         ))
         ->execute()
     ;

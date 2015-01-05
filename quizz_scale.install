@@ -36,9 +36,9 @@ function quizz_scale_schema() {
   $schema['quiz_scale_collection_item'] = array(
       'description' => 'Holds all the possible answers and what answer collections they belong to',
       'fields'      => array(
-          'id'                   => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE),
-          'answer_collection_id' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
-          'answer'               => array('type' => 'text'),
+          'id'            => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE),
+          'collection_id' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
+          'answer'        => array('type' => 'text'),
       ),
       'primary key' => array('id'),
   );
@@ -46,9 +46,9 @@ function quizz_scale_schema() {
   $schema['quiz_scale_question'] = array(
       'description' => 'Properties specific to this question type. Holds information about what answer collection this question uses',
       'fields'      => array(
-          'qid'                  => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'description' => 'Question ID'),
-          'vid'                  => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'description' => 'Question VID'),
-          'answer_collection_id' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
+          'qid'           => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'description' => 'Question ID'),
+          'vid'           => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'description' => 'Question VID'),
+          'collection_id' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
       ),
       'primary key' => array('qid', 'vid'),
   );

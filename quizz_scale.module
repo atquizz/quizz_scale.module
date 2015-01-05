@@ -103,11 +103,11 @@ function quizz_scale_user_cancel($edit, $account, $method) {
   $query = db_query(
     'SELECT id
      FROM {quiz_scale_collection} collection
-       JOIN {quiz_scale_user} u ON collection.id = u.answer_collection_id
+       JOIN {quiz_scale_user} u ON collection.id = u.collection_id
      WHERE uid = :uid
        AND collection.for_all = :for_all
-       AND collection.id NOT IN (SELECT answer_collection_id FROM {quiz_scale_question})
-       AND collection.id NOT IN (SELECT answer_collection_id FROM {quiz_scale_user} WHERE NOT uid = :uid)', array(
+       AND collection.id NOT IN (SELECT collection_id FROM {quiz_scale_question})
+       AND collection.id NOT IN (SELECT collection_id FROM {quiz_scale_user} WHERE NOT uid = :uid)', array(
       ':uid'     => $account->uid,
       ':for_all' => 0
   ));
