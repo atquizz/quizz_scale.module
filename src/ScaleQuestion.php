@@ -12,7 +12,7 @@ use Drupal\quizz_scale\Form\ScaleQuestionForm;
  */
 class ScaleQuestion extends QuestionHandler {
 
-  protected $base_answer_table = 'quiz_scale_answer';
+  protected $base_answer_table = 'quizz_scale_answer';
   protected $base_table = 'quiz_scale_question';
 
   public function onNewQuestionTypeCreated(QuestionType $question_type) {

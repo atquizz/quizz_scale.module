@@ -15,7 +15,7 @@ class ScaleResponse extends ResponseHandler {
    * {@inheritdoc}
    * @var string
    */
-  protected $base_table = 'quiz_scale_answer';
+  protected $base_table = 'quizz_scale_answer';
 
   public function __construct($result_id, Question $question, $input = NULL) {
     parent::__construct($result_id, $question, $input);
@@ -34,7 +34,7 @@ class ScaleResponse extends ResponseHandler {
   }
 
   public function onLoad(Answer $answer) {
-    $sql = 'SELECT collection_item_id FROM {quiz_scale_answer} ap';
+    $sql = 'SELECT collection_item_id FROM {' . $this->base_table . '} ap';
     $sql .= ' INNER JOIN {quiz_scale_collection_item} item ON ap.collection_item_id = item.id';
     $sql .= ' WHERE answer_id = :id';
     if ($input = db_query($sql, array(':id' => $answer->id))->fetchField()) {
@@ -46,7 +46,7 @@ class ScaleResponse extends ResponseHandler {
    * {@inheritdoc}
    */
   public function save() {
-    db_merge('quiz_scale_answer')
+    db_merge($this->base_table)
       ->key(array('answer_id' => $this->loadAnswerEntity()->id))
       ->fields(array('collection_item_id' => $this->answer))
       ->execute();
