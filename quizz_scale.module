@@ -1,17 +1,6 @@
 <?php
 
 use Drupal\quizz_scale\Entity\Collection;
-use Drupal\quizz_question\Entity\QuestionType;
-use Drupal\quizz_scale\Form\ConfigForm\FormDefinition;
-
-/**
- * Implements hook_help().
- */
-function quizz_scale_help($path) {
-  if ($path === 'admin/help#quizz_scale') {
-    return t('This module provides a scale question type for Quiz. It may be used to construct surveys.');
-  }
-}
 
 /**
  * Implements hook_theme().
@@ -83,15 +72,6 @@ function quizz_scale_entity_info() {
   }
 
   return $info;
-}
-
-/**
- * Implements hook_quiz_question_config().
- */
-function quizz_scale_quiz_question_config(QuestionType $question_type) {
-  require_once dirname(__FILE__) . '/quizz_scale.pages.inc';
-  $obj = new FormDefinition($question_type);
-  return $obj->get();
 }
 
 /**

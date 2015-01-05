@@ -4,6 +4,7 @@ namespace Drupal\quizz_scale;
 
 use Drupal\quizz_question\Entity\QuestionType;
 use Drupal\quizz_question\QuestionHandler;
+use Drupal\quizz_scale\Form\ConfigForm\FormDefinition;
 use Drupal\quizz_scale\Form\ScaleQuestionForm;
 
 /**
@@ -50,13 +51,6 @@ class ScaleQuestion extends QuestionHandler {
   /**
    * {@inheritdoc}
    */
-  public function validate(array &$form) {
-
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function delete($single_revision = FALSE) {
     $cid = $this->question->{0}->collection_id;
     quizz_scale_collection_controller()->deleteCollectionIfNotUsed($cid, 0);
@@ -85,6 +79,9 @@ class ScaleQuestion extends QuestionHandler {
     return $this->properties;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function view() {
     $content = parent::view();
     $alternatives = array();
@@ -101,9 +98,7 @@ class ScaleQuestion extends QuestionHandler {
   }
 
   /**
-   * Implementation of getAnsweringForm
-   *
-   * @see getAnsweringForm($form_state, $result_id)
+   * {@inheritdoc}
    */
   public function getAnsweringForm(array $form_state = NULL, $result_id) {
     $options = array();
@@ -132,9 +127,7 @@ class ScaleQuestion extends QuestionHandler {
   }
 
   /**
-   * Implementation of getCreationForm
-   *
-   * @see QuizQuestion#getCreationForm()
+   * {@inheritdoc}
    */
   public function getCreationForm(array &$form_state = NULL) {
     $obj = new ScaleQuestionForm($this->question);
@@ -142,15 +135,22 @@ class ScaleQuestion extends QuestionHandler {
   }
 
   /**
-   * Implementation of getMaximumScore.
-   *
-   * @see QuizQuestion#getMaximumScore()
+   * {@inheritdoc}
    *
    * In some use-cases we want to reward users for answering a survey question.
    * This is why 1 is returned and not zero.
    */
   public function getMaximumScore() {
     return 1;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  function questionTypeConfigForm(QuestionType $question_type) {
+    require_once drupal_get_path('module', 'quizz_scale') . '/quizz_scale.pages.inc';
+    $obj = new FormDefinition($question_type);
+    return $obj->get();
   }
 
 }
